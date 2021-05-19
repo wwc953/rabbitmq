@@ -46,6 +46,18 @@ public class RabbitCheckConfig {
             }
         });
 
+        //消息没有正确到达队列时触发回调，如果正确到达队列不执行
+        rabbitTemplate.setReturnCallback(new RabbitTemplate.ReturnCallback() {
+            @Override
+            public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
+                System.out.println("ReturnCallback:     " + "消息：" + message);
+                System.out.println("ReturnCallback:     " + "回应码：" + replyCode);
+                System.out.println("ReturnCallback:     " + "回应信息：" + replyText);
+                System.out.println("ReturnCallback:     " + "交换机：" + exchange);
+                System.out.println("ReturnCallback:     " + "路由键：" + routingKey);
+            }
+        });
+
         return rabbitTemplate;
     }
 
