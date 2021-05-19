@@ -21,34 +21,34 @@
     where id = #{id,jdbcType=VARCHAR}
   </select>
 
-  <select id="queryList" resultType="java.util.List" parameterType="com.wwc.provider2.bean.MsgInfo" >
+  <select id="queryList" resultMap="BaseResultMap" parameterType="com.wwc.provider2.bean.MsgInfo" >
     select
     <include refid="Base_Column_List" />
     from app_msg_info
     <where>
       <if test="id != null" >
-        id = #{id,jdbcType=VARCHAR},
+        and id = #{id,jdbcType=VARCHAR}
       </if>
       <if test="bizId != null" >
-        bizId = #{bizId,jdbcType=VARCHAR},
+        and biz_id = #{bizId,jdbcType=VARCHAR}
       </if>
       <if test="bizType != null" >
-        bizType = #{bizType,jdbcType=VARCHAR},
+        and biz_type = #{bizType,jdbcType=VARCHAR}
       </if>
       <if test="msg != null" >
-        msg = #{msg,jdbcType=VARCHAR},
+        and msg = #{msg,jdbcType=VARCHAR}
       </if>
       <if test="msgResult != null" >
-        msgResult = #{msgResult,jdbcType=VARCHAR},
+        and msg_result = #{msgResult,jdbcType=VARCHAR}
       </if>
       <if test="msgDesc != null" >
-        msgDesc = #{msgDesc,jdbcType=VARCHAR},
+        and msg_desc = #{msgDesc,jdbcType=VARCHAR}
       </if>
       <if test="atime != null" >
-        atime = #{atime,jdbcType=TIMESTAMP},
+        and atime = #{atime,jdbcType=TIMESTAMP}
       </if>
       <if test="tryCount != null" >
-        tryCount = #{tryCount,jdbcType=INTEGER},
+        and try_count = #{tryCount,jdbcType=INTEGER}
       </if>
     </where>
   </select>
