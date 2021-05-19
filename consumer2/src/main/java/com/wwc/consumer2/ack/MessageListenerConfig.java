@@ -20,8 +20,8 @@ public class MessageListenerConfig {
     @Bean
     public SimpleMessageListenerContainer simpleMessageListenerContainer() {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory);
-        container.setConcurrentConsumers(1);
-        container.setMaxConcurrentConsumers(1);
+//        container.setConcurrentConsumers(10);
+//        container.setMaxConcurrentConsumers(20);
 
         // RabbitMQ默认是自动确认，这里改为手动确认消息
         container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
