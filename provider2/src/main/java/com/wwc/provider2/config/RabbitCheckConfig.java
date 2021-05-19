@@ -33,7 +33,7 @@ public class RabbitCheckConfig {
         rabbitTemplate.setConfirmCallback(new RabbitTemplate.ConfirmCallback() {
             @Override
             public void confirm(CorrelationData correlationData, boolean ack, String cause) {
-//                System.out.println("ConfirmCallback:     " + "相关数据：" + correlationData);
+                System.out.println("ConfirmCallback:     " + "相关数据：" + correlationData);
                 if (ack) {
 //                    System.out.println("消息到达rabbitmq服务器");
                     MsgInfo msgInfo = new MsgInfo();
@@ -42,20 +42,7 @@ public class RabbitCheckConfig {
                     msgInfoMapper.updateByPrimaryKeySelective(msgInfo);
                 } else {
                     System.out.println("消息可能未到达rabbitmq服务器");
-
                 }
-            }
-        });
-
-        //消息没有正确到达队列时触发回调，如果正确到达队列不执行
-        rabbitTemplate.setReturnCallback(new RabbitTemplate.ReturnCallback() {
-            @Override
-            public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
-                System.out.println("ReturnCallback:     " + "消息：" + message);
-                System.out.println("ReturnCallback:     " + "回应码：" + replyCode);
-                System.out.println("ReturnCallback:     " + "回应信息：" + replyText);
-                System.out.println("ReturnCallback:     " + "交换机：" + exchange);
-                System.out.println("ReturnCallback:     " + "路由键：" + routingKey);
             }
         });
 
@@ -65,6 +52,8 @@ public class RabbitCheckConfig {
     @Bean
     public Queue TestDirectQueue() {
         HashMap<String, Object> params = new HashMap<>(2);
+        //消息超时时间，超时进入死信队列 10s
+//        params.put("x-message-ttl", 10000);
         params.put("x-dead-letter-exchange", X_DEAD_LETTER_EXCHANGE);
         params.put("x-dead-letter-routing-key", X_DEAD_LETTER_ROUTING_KEY);
         //一般设置一下队列的持久化就好,其余两个就是默认false
