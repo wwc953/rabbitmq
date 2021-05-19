@@ -29,9 +29,9 @@ public class RabbitCheckConfig {
         rabbitTemplate.setConfirmCallback(new RabbitTemplate.ConfirmCallback() {
             @Override
             public void confirm(CorrelationData correlationData, boolean ack, String cause) {
-                System.out.println("ConfirmCallback:     " + "相关数据：" + correlationData);
+//                System.out.println("ConfirmCallback:     " + "相关数据：" + correlationData);
                 if (ack) {
-                    System.out.println("消息到达rabbitmq服务器");
+//                    System.out.println("消息到达rabbitmq服务器");
                     MsgInfo msgInfo = new MsgInfo();
                     msgInfo.setId(correlationData.getId());
                     msgInfo.setMsgDesc("02");

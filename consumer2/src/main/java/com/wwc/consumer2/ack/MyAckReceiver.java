@@ -33,6 +33,7 @@ public class MyAckReceiver implements ChannelAwareMessageListener {
 
                 MsgInfo almsgobj = msgInfoMapper.selectByPrimaryKey(msgobj.getId());
                 if (almsgobj != null) {
+                    System.out.println("重复消息:" + msg);
                     almsgobj.setAtime(new Date());
                     msgInfoMapper.updateByPrimaryKeySelective(almsgobj);
                 } else {

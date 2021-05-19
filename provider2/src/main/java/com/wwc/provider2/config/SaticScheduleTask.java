@@ -9,13 +9,14 @@ import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.CollectionUtils;
 
-import java.time.LocalDateTime;
-import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Configuration
 @EnableScheduling   // 2.开启定时任务
@@ -48,6 +49,22 @@ public class SaticScheduleTask {
             correlationData.setId(msg.getId());
             rabbitTemplate.convertAndSend("orderExchange", "orderRouting", JSONObject.toJSONString(msg), correlationData);
         }
+
+    }
+
+//    @Scheduled(cron = "0/1 * * * * ?")
+    private void createOrder() {
+
+        System.out.println("createOrder========" + Thread.currentThread().getName());
+
+        MsgInfo msgInfo = new MsgInfo();
+        String uuid = String.valueOf(UUID.randomUUID());
+        msgInfo.setId(uuid);
+        msgInfo.setAtime(new Date());
+        msgInfo.setBizType("order");
+        msgInfo.setTryCount(0);
+        msgInfo.setMsgDesc("01");
+        msgInfoMapper.insertSelective(msgInfo);
 
     }
 
