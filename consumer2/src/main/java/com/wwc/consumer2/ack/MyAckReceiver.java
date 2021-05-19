@@ -1,33 +1,49 @@
 package com.wwc.consumer2.ack;
 
+import com.alibaba.fastjson.JSONObject;
 import com.rabbitmq.client.Channel;
+import com.wwc.consumer2.bean.MsgInfo;
+import com.wwc.consumer2.dao.MsgInfoMapper;
 import com.wwc.consumer2.utils.Constant;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.listener.api.ChannelAwareMessageListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 @Component
 public class MyAckReceiver implements ChannelAwareMessageListener {
 
+    @Autowired
+    MsgInfoMapper msgInfoMapper;
+
     @Override
     public void onMessage(Message message, Channel channel) throws Exception {
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
-        try {
-            //因为传递消息的时候用的map传递,所以将Map从Message内取出需要做些处理
-            String msg = message.toString();
+        String msg = message.toString();
+        MsgInfo msgobj = JSONObject.parseObject(message.getBody(), MsgInfo.class);
 
+        try {
             if (Constant.order_queue.equals(message.getMessageProperties().getConsumerQueue())) {
-                System.out.println("消费的消息来自的队列名为：" + message.getMessageProperties().getConsumerQueue());
                 System.out.println("消息成功消费到  messageId:" + msg);
                 System.out.println("执行TestDirectQueue中的消息的业务处理流程......");
-            }
-            channel.basicAck(deliveryTag, true); //第二个参数，手动确认可以被批处理，当该参数为 true 时，则可以一次性确认 delivery_tag 小于等于传入值的所有消息
 
+                MsgInfo almsgobj = msgInfoMapper.selectByPrimaryKey(msgobj.getId());
+                if (almsgobj != null) {
+                    almsgobj.setAtime(new Date());
+                    msgInfoMapper.updateByPrimaryKeySelective(almsgobj);
+                } else {
+                    msgobj.setAtime(new Date());
+                    msgInfoMapper.insertSelective(msgobj);
+                }
+            }
+            //第二个参数，手动确认可以被批处理，当该参数为 true 时，则可以一次性确认 delivery_tag 小于等于传入值的所有消息
+            channel.basicAck(deliveryTag, true);
         } catch (Exception e) {
-            channel.basicReject(deliveryTag, false);
+            channel.basicReject(deliveryTag, true);
             e.printStackTrace();
         }
     }
