@@ -2,6 +2,7 @@ package com.wwc.provider2.config;
 
 import com.wwc.provider2.bean.MsgInfo;
 import com.wwc.provider2.dao.MsgInfoMapper;
+import com.wwc.provider2.utils.Constant;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
@@ -60,18 +61,18 @@ public class RabbitCheckConfig {
     @Bean
     public Queue TestDirectQueue() {
         //一般设置一下队列的持久化就好,其余两个就是默认false
-        return new Queue("OrderQueue", true);
+        return new Queue(Constant.order_queue, true);
     }
 
     @Bean
     DirectExchange orderExchange() {
-        return new DirectExchange("orderExchange", true, false);
+        return new DirectExchange(Constant.order_exchange, true, false);
     }
 
     //绑定  将队列和交换机绑定, 并设置用于匹配键：TestDirectRouting
     @Bean
     Binding bindingDirect() {
-        return BindingBuilder.bind(TestDirectQueue()).to(orderExchange()).with("orderRouting");
+        return BindingBuilder.bind(TestDirectQueue()).to(orderExchange()).with(Constant.order_rounting);
     }
 
 
