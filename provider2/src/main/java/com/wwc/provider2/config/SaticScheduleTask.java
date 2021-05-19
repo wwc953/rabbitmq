@@ -4,12 +4,17 @@ import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.wwc.provider2.bean.MsgInfo;
 import com.wwc.provider2.dao.MsgInfoMapper;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Configuration
@@ -19,6 +24,9 @@ public class SaticScheduleTask {
     @Autowired
     MsgInfoMapper msgInfoMapper;
 
+    @Autowired
+    RabbitTemplate rabbitTemplate;
+
     //3.添加定时任务
     @Scheduled(cron = "0/3 * * * * ?")
     //或直接指定时间间隔，例如：5秒
@@ -26,11 +34,20 @@ public class SaticScheduleTask {
     private void configureTasks() {
 //        System.err.println("执行静态定时任务时间: " + LocalDateTime.now());
 
+        //查询待发送
         MsgInfo msgInfo = new MsgInfo();
         msgInfo.setMsgDesc("01");
         msgInfo.setBizType("order");
         List<MsgInfo> result = msgInfoMapper.queryList(msgInfo);
-        System.out.println(JSONObject.toJSONString(result));
+        if (CollectionUtils.isEmpty(result)) {
+            return;
+        }
+
+        for (MsgInfo msg : result) {
+            CorrelationData correlationData = new CorrelationData();
+            correlationData.setId(msg.getId());
+            rabbitTemplate.convertAndSend("orderExchange", "orderRouting", JSONObject.toJSONString(msg), correlationData);
+        }
 
     }
 
