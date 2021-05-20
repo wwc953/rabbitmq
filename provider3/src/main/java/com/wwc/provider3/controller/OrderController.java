@@ -17,7 +17,10 @@ public class OrderController {
     @GetMapping("/createDead/{msg}")
     public void createDead(@PathVariable String msg) {
         sender.sendMsg(RabbitDelayConfig.DELAY_TEST_EXCHANGE, RabbitDelayConfig.DELAY_TEST_ROUTING_KEY,
-                msg, null);
+                msg, messagePostProcessor -> {
+                    messagePostProcessor.getMessageProperties().setDelay(2000);
+                    return messagePostProcessor;
+                });
     }
 
 }

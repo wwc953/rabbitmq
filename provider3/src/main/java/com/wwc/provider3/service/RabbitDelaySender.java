@@ -76,7 +76,7 @@ public class RabbitDelaySender {
     /**
      * 扩展点，在消息转换完成之后，发送之前调用；可以修改消息属性、消息头信息
      */
-    private final MessagePostProcessor messagePostProcessor = new MessagePostProcessor() {
+    private final MessagePostProcessor defaultMessagePostProcessor = new MessagePostProcessor() {
         @Override
         public Message postProcessMessage(Message message) throws AmqpException {
             MessageProperties properties = message.getMessageProperties();
@@ -101,6 +101,14 @@ public class RabbitDelaySender {
         }
     };
 
+    public void sendMsg(String exchange, String routingKey, String message) {
+        sendMsg(exchange, routingKey, message, defaultMessagePostProcessor, null);
+    }
+
+    public void sendMsg(String exchange, String routingKey, String message, MessagePostProcessor messagePostProcessor) {
+        sendMsg(exchange, routingKey, message, messagePostProcessor, null);
+    }
+
     /**
      * 发送消息
      *
@@ -109,7 +117,7 @@ public class RabbitDelaySender {
      * @param message    消息
      * @param properties
      */
-    public void sendMsg(String exchange, String routingKey, String message, MessageProperties properties) {
+    public void sendMsg(String exchange, String routingKey, String message, MessagePostProcessor messagePostProcessor, MessageProperties properties) {
         /**
          * 设置生产者消息publish-confirm回调函数
          */
