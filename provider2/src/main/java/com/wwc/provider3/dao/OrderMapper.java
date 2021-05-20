@@ -1,6 +1,6 @@
-package com.wwc.provider2.dao;
+package com.wwc.provider3.dao;
 
-import com.wwc.provider2.bean.Order;
+import com.wwc.provider3.bean.Order;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

@@ -1,13 +1,12 @@
-package com.wwc.provider2.config;
+package com.wwc.provider3.config;
 
-import com.wwc.provider2.bean.MsgInfo;
-import com.wwc.provider2.dao.MsgInfoMapper;
-import com.wwc.provider2.utils.Constant;
+import com.wwc.provider3.bean.MsgInfo;
+import com.wwc.provider3.dao.MsgInfoMapper;
+import com.wwc.provider3.utils.Constant;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

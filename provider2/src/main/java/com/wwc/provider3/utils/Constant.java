@@ -1,4 +1,4 @@
-package com.wwc.provider2.utils;
+package com.wwc.provider3.utils;
 
 public interface Constant {
     /**

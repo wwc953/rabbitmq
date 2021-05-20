@@ -1,6 +1,6 @@
-package com.wwc.provider2.dao;
+package com.wwc.provider3.dao;
 
-import com.wwc.provider2.bean.MsgInfo;
+import com.wwc.provider3.bean.MsgInfo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

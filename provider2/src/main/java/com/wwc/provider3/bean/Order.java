@@ -1,4 +1,4 @@
-package com.wwc.provider2.bean;
+package com.wwc.provider3.bean;
 
 import java.util.Date;
 

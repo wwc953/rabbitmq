@@ -1,17 +1,13 @@
-package com.wwc.provider2.config;
+package com.wwc.provider3.config;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.wwc.provider2.bean.MsgInfo;
-import com.wwc.provider2.dao.MsgInfoMapper;
-import org.springframework.amqp.core.Message;
+import com.wwc.provider3.bean.MsgInfo;
+import com.wwc.provider3.dao.MsgInfoMapper;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Date;

@@ -1,9 +1,9 @@
-package com.wwc.provider2.service;
+package com.wwc.provider3.service;
 
-import com.wwc.provider2.bean.MsgInfo;
-import com.wwc.provider2.bean.Order;
-import com.wwc.provider2.dao.MsgInfoMapper;
-import com.wwc.provider2.dao.OrderMapper;
+import com.wwc.provider3.bean.MsgInfo;
+import com.wwc.provider3.bean.Order;
+import com.wwc.provider3.dao.MsgInfoMapper;
+import com.wwc.provider3.dao.OrderMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

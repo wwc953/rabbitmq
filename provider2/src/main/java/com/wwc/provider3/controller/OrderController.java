@@ -1,12 +1,9 @@
-package com.wwc.provider2.controller;
+package com.wwc.provider3.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.wwc.provider2.bean.MsgInfo;
-import com.wwc.provider2.service.OrderService;
-import com.wwc.provider2.utils.Constant;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessagePostProcessor;
-import org.springframework.amqp.core.ReturnedMessage;
+import com.wwc.provider3.bean.MsgInfo;
+import com.wwc.provider3.service.OrderService;
+import com.wwc.provider3.utils.Constant;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;

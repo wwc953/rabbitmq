@@ -1,12 +1,11 @@
-package com.wwc.provider2;
+package com.wwc.provider3;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-public class Provider2App {
+public class Provider3App {
     public static void main(String[] args) {
-        SpringApplication.run(Provider2App.class, args);
+        SpringApplication.run(Provider3App.class, args);
     }
 }
